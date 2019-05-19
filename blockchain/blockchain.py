@@ -40,6 +40,20 @@ class Blockchain():
 		block.hash = block.calculate_hash()
 		self.chain.append(block)
 
+	def valid_chain(self):
+		"""  """
+		for i in range(1, len(self.chain)): 
+			if self.chain[i].calculate_hash() != self.chain[i].hash:
+				return False
+			if self.chain[i].previous_hash != self.chain[i-1].hash:
+				return False
+		return True
+
+	
+	def __len__(self):
+		"""  """
+		return len(self.chain)
+
 	def __str__(self):
 		"""  """
 		return f"""chain = {self.chain}"""
