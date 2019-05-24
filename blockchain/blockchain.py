@@ -1,6 +1,8 @@
 import hashlib
 
 class Block():
+	"""A block in the blockchain"""
+	nonce = 2
 
 	def __init__(self, index, timestamp, data, previous_hash = ''):
 		"""  """
@@ -9,21 +11,31 @@ class Block():
 		self.data = data
 		self.previous_hash = previous_hash
 		self.hash = self.calculate_hash()
-		
+		self.nonce = 0
 	
 	def calculate_hash(self):
 		"""  """
+		return hashlib.sha256(bytearray(f"{self.index}{self.timestamp}{self.data}{self.previous_hash}{self.nonce}".encode('utf-8'))).hexdigest()
+
+	def mine_block(self, difficulty):
+		"""  """
+		while self.hash[0: difficulty] != ('0' * difficulty):
+			self.nonce += 1
+			self.hash = self.calculate_hash()
+			print(f"trying: {self.hash}")
+		print(f"mined: {self.hash}")
 		return hashlib.sha256(bytearray(f"{self.index}{self.timestamp}{self.data}{self.previous_hash}".encode('utf-8'))).hexdigest()
 
 	def __str__(self):
 		"""  """
-		return f"""index = {self.index}, timestamp = {self.timestamp}, data = {self.data}, previous_hash = {self.previous_hash}"""
+		return f"""(index = {self.index}, hash = {self.hash}, timestamp = {self.timestamp}, data = {self.data}, previous_hash = {self.previous_hash}, nonce = {self.nonce})"""
 
 class Blockchain():
 
 	def __init__(self):
 		"""  """
 		self.chain = [self.generate_genesis_block()]
+		self.difficulty = 2
 
 	def generate_genesis_block(self):
 		"""  """
@@ -37,7 +49,7 @@ class Blockchain():
 	def add_block(self, block):
 		"""  """
 		block.previous_hash = self.latest_block().hash
-		block.hash = block.calculate_hash()
+		block.mine_block(self.difficulty)
 		self.chain.append(block)
 
 	def valid_chain(self):
@@ -56,7 +68,7 @@ class Blockchain():
 
 	def __str__(self):
 		"""  """
-		return f"""chain = {self.chain}"""
+		return f"""chain = {[str(b) for b in self.chain]}"""
 
 blc = Blockchain()
 blc.add_block(Block(0, 15022, "God created the heavens and the earth", 2))
