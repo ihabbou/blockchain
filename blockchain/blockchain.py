@@ -1,4 +1,5 @@
 import hashlib
+from ecdsa import SigningKey, VerifyingKey, SECP256k1
 
 class Transaction():
 	def __init__(self, from_address, to_address, amount):
@@ -6,6 +7,28 @@ class Transaction():
 		self.from_address = from_address
 		self.to_address = to_address
 		self.amount = amount
+
+	def calculate_hash(self):
+		"""  """
+		return hashlib.sha256(bytearray(f"{self.from_address}{self.to_address}{self.amount}".encode('utf-8'))).hexdigest()
+
+	def sign_transacion(self, signing_key):
+		"""  """
+		if signing_key.get_verifying_key() != self.to_address:
+			raise Exception("You can only sign transactions for your own wallet.")
+		hash_tx = self.calculate_hash()
+		sig = signing_key.sign(hash_tx)
+		return hashlib.sha256(bytearray(f"{self.from_address}{self.to_address}{self.amount}".encode('utf-8'))).hexdigest()
+
+	def is_valid(self):
+		"""  """
+		if self.from_address is None:
+			return True
+		elif self.signature | len(self.signature) == 0:
+			raise Exception("Transaction not signed.")
+		else:
+			public_key = VerifyingKey.from_pem(self.to_address())
+			return public_key.verify(public_key, self.calculate_hash())
 
 	def __str__(self):
 		"""  """
@@ -25,7 +48,7 @@ class Block():
 	
 	def calculate_hash(self):
 		"""  """
-		return hashlib.sha256(bytearray(f"{self.timestamp}{self.transactions}{self.previous_hash}{self.nonce}".encode('utf-8'))).hexdigest()
+		return hashlib.sha256(bytearray(f"{self.timestamp}{[str(t) for t in self.transactions]}{self.previous_hash}{self.nonce}".encode('utf-8'))).hexdigest()
 
 	def mine_block(self, difficulty):
 		"""  """
@@ -35,6 +58,13 @@ class Block():
 		# 	print(f"trying: {self.hash}")
 		# print(f"mined: {self.hash}")
 		return hashlib.sha256(bytearray(f"{self.timestamp}{[str(t) for t in self.transactions]}{self.previous_hash}".encode('utf-8'))).hexdigest()
+
+	def has_valid_transactions(self):
+		"""  """
+		for tx in self.transactions:
+			if not tx.is_valid():
+				return False
+		return True
 
 	def __str__(self):
 		"""  """
@@ -74,8 +104,15 @@ class Blockchain():
 		self.chain.append(block)
 		self.pending_transactions = [Transaction(None, mining_reward_address, self.mining_reward)]
 
-	def create_transaction(self, transaction):
+	def add_transaction(self, transaction):
 		"""  """
+		try:
+			VerifyingKey.from_pem(transaction.from_address)
+			VerifyingKey.from_pem(transaction.to_address)
+		except AssertionError:
+			raise Exception("Invalid address.") 
+		if not transaction.is_valid:
+			raise Exception("Invalid transaction.") 
 		self.pending_transactions.append(transaction)
 
 	def get_address_balance(self, address):
@@ -92,9 +129,12 @@ class Blockchain():
 	def valid_chain(self):
 		"""  """
 		for i in range(1, len(self.chain)): 
-			if self.chain[i].calculate_hash() != self.chain[i].hash:
+			cuBlock = self.chain[i]
+			if cuBlock.calculate_hash() != cuBlock.hash:
 				return False
-			if self.chain[i].previous_hash != self.chain[i-1].hash:
+			if cuBlock.previous_hash != self.chain[i-1].hash:
+				return False
+			if not cuBlock.has_valid_transactions():
 				return False
 		return True
 	
@@ -109,8 +149,18 @@ class Blockchain():
 blc = Blockchain()
 # blc.add_block(Block(0, 15022, "God created the heavens and the earth", 2))
 
-blc.create_transaction(Transaction('@1', '@2', 10))
-blc.create_transaction(Transaction('@2', '@1', 5))
+key1 = b''
+privkey1 = b''
+
+tx = Transaction(key1, key1, 10)
+tx.sign_transacion(privkey1)
+
+blc.add_transaction(tx)
+
+
+
+blc.add_transaction(Transaction('@1', '@2', 10))
+blc.add_transaction(Transaction('@2', '@1', 5))
 
 print("start mining ...")
 
@@ -123,4 +173,26 @@ print(f"my  balance = {blc.get_address_balance('@2')}")
 
 # print(hashlib.sha256(b"textt").hexdigest())
 
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+private_key = ec.generate_private_key(
+	ec.SECP384R1(), default_backend()
+	)
 
+data = b"this is some data I'd like to sign"
+signature = private_key.sign(
+    data,
+	ec.ECDSA(hashes.SHA256())
+	)
+
+print(str(private_key.public_key().hexd()))
+
+
+# https://github.com/warner/python-ecdsa#usage
+
+from ecdsa import SigningKey, NIST384p
+sk = SigningKey.generate(curve=NIST384p)  # uses NIST192p
+vk = sk.get_verifying_key()
+signature = sk.sign("message")
+assert vk.verify(signature, "message")
