@@ -22,8 +22,8 @@ contract Election {
 
 	// function to add candidates to the election
 	function addCandidate(string memory _name) private {
-		candidateCount++;
 		candidates[candidateCount] = Candidate(candidateCount, _name, 0);
+		candidateCount++;
 	}
 
 
