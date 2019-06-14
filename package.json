@@ -2,9 +2,13 @@
   "name": "blockchain",
   "version": "1.0.0",
   "description": "A Blockchain-based voting system.",
-  "main": "index.js",
+  "main": "truffle.js",
   "scripts": {
-    "test": "node index.js"
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "directories": {
+    "test": "test"
   },
   "repository": {
     "type": "git",
@@ -15,13 +19,14 @@
     "voting-system"
   ],
   "author": "Ihab Bouaffar",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/ihabbou/blockchain/issues"
   },
   "homepage": "https://github.com/ihabbou/blockchain#readme",
   "dependencies": {
     "crypto-js": "^3.1.9-1",
-    "elliptic": "^6.4.1"
+    "elliptic": "^6.4.1",
+    "lite-server": "^2.3.0"
   }
 }
