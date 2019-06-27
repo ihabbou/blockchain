@@ -1,3 +1,4 @@
-# blockchain
+# Blockchain Voting System
 Blockchain project BlockChainReaction
-hhhh
+
+A voting system that uses blockchain technology
