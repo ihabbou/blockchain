@@ -1,5 +1,5 @@
-import Block from './block';
-import Transaction from './transaction';
+var Block = require('./block.js').Block;
+var Transaction = require('./transaction.js').Transaction;
 
 
 class Blockchain {
@@ -151,3 +151,9 @@ class Blockchain {
 }
 
 module.exports.Blockchain = Blockchain;
+
+
+
+var bc = new Blockchain();
+
+console.log('bc', bc)

@@ -1,5 +1,5 @@
-import Transaction from './transaction';
-import { calculateHash } from './cryptographer';
+var Transaction = require('./transaction').Transaction;
+var calculateHash = require('./cryptographer').calculateHash;
 
 class Block {
 	/**
@@ -61,4 +61,4 @@ class Block {
 	}
 }
 
-export default Block;
+module.exports.Block = Block;

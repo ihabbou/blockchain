@@ -1,0 +1,24 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "A Blockchain-based voting system.",
+  "main": "node.js",
+  "scripts": {
+    "pls": "npm index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihabbou/blockchain.git"
+  },
+  "keywords": [
+    "blockchain",
+    "voting-system"
+  ],
+  "author": "Ihab Bouaffar",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/ihabbou/blockchain/issues"
+  },
+  "homepage": "https://github.com/ihabbou/blockchain#readme"
+}

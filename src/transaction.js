@@ -1,4 +1,4 @@
-import { calculateHash } from './cryptographer';
+var calculateHash = require('./cryptographer');
 
 class Transaction {
 	/**
@@ -70,4 +70,4 @@ class Transaction {
 	}
 }
 
-export default Transaction;
+module.exports.Transaction = Transaction;
