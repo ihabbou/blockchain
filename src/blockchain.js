@@ -151,9 +151,3 @@ class Blockchain {
 }
 
 module.exports.Blockchain = Blockchain;
-
-
-
-var bc = new Blockchain();
-
-console.log('bc', bc)
