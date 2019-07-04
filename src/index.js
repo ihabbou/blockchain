@@ -32,8 +32,8 @@ const ec = new EC('secp256k1');
 var klef = ec.genKeyPair();
 console.log("klef");
 
-console.log(klef.getPrivate('hex'));
 console.log("/=================================================/")
+console.log(klef.getPrivate('hex'));
 console.log(klef.getPublic('hex'));
 
 /** */
