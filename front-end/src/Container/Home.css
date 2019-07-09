@@ -1,0 +1,11 @@
+@media all and (min-width: 480px) {
+    .container {
+        flex-direction: row 
+    }
+  
+    .image {
+        -webkit-box-shadow: 0px 2px 18px 4px rgba(0,0,0,0.23);
+        -moz-box-shadow: 0px 2px 18px 4px rgba(0,0,0,0.23);
+        box-shadow: 0px 2px 18px 4px rgba(0,0,0,0.23);
+    }
+  }
