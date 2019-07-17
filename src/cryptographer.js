@@ -3,8 +3,8 @@ const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
 
-function calculateHash(data) {
-	return SHA256(data.toString()).toString();
+function calc_hash(data) {
+	return SHA256(data).toString();
 }
 
 function matchPrivateToPublicKey(privateKey, publicKey) {
@@ -18,14 +18,14 @@ function sign(signingKey, hash) {
 	return sig.toDER('hex');
 }
 
-function verifySignature(hash, signature, fromAddress) {
+function verify_signature(data, signature, fromAddress) {
 	const publicKey = ec.keyFromPublic(fromAddress, 'hex');
-	return publicKey.verify(hash, signature);
+	return publicKey.verify(calc_hash(data), signature);
 }
 
 module.exports = {
-	calculateHash,
+	calc_hash,
 	matchPrivateToPublicKey, 
 	sign, 
-	verifySignature 
+	verify_signature 
 };

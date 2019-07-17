@@ -1,74 +1,64 @@
-var calculateHash = require('./cryptographer').calculateHash;
-var matchPrivateToPublicKey = require('./cryptographer').matchPrivateToPublicKey;
-var sign = require('./cryptographer').sign;
-var verifySignature = require('./cryptographer').verifySignature;
+'use strict';
+var Crypto = require("./cryptographer");
 
-class Transaction {
-	/**
-	 * @param {string} fromAddress
-	 * @param {string} toAddress
-	 * @param {number} amount
-	 */
-	constructor(fromAddress, toAddress, amount) {
-		this.fromAddress = fromAddress;
-		this.toAddress = toAddress;
-		this.amount = amount;
-		this.timestamp = Date.now();
-	}
-
-	/**
-	 * Creates a SHA256 hash of the transaction
-	 *
-	 * @returns {string}
-	 */
-	calculateHash() {
-		return calculateHash(this);
-	}
-	
-	/**
-	 * Signs a transaction with the given signingKey (which is an Elliptic keypair
-	 * object that contains a private key). The signature is then stored inside the
-	 * transaction object and later stored on the blockchain.
-	 *
-	 * @param {string} signingKey
-	 */
-	signTransaction(signingKey) {
-		// You can only send a transaction from the wallet that is linked to your
-		// key. So here we check if the fromAddress matches your publicKey
-		
-		if (!matchPrivateToPublicKey(signingKey, this.fromAddress)) {
-			throw new Error('You cannot sign transactions for other wallets!');
-		}
-		
-		// Calculate the hash of this transaction, sign it with the key
-		// and store it inside the transaction obect
-		const hashTx = this.calculateHash();
-		
-		this.signature = sign(signingKey, hashTx);
-	}
-	
-	/**
-	 * Checks if the signature is valid (transaction has not been tampered with).
-	 * It uses the fromAddress as the public key.
-	 *
-	 * @returns {boolean}
-	 */
-	isValid() {
-		// If the transaction doesn't have a from address we assume it's a
-		// mining reward and that it's valid. You could verify this in a
-		// different way (special field for instance)
-		if (this.fromAddress === null) return true;
-		
-		if (!this.signature || this.signature.length === 0) {
-			throw new Error('No signature in this transaction');
-		}
-		
-		return verifySignature(this.calculateHash(), this.signature, this.fromAddress);
-	}
-
-	toString() {
-		return (this.fromAddress + this.toAddress + this.amount + this.timestamp);
-	}
+class TxOutput {
+    constructor(amount, ScriptPubKey) {
+        this.amount_ = amount;
+        this.script_pubkey_ = ScriptPubKey;
+    }
+    toObject() {
+        let output = {
+            "amount": this.amount_,
+            "ScriptPubKey": this.script_pubkey_
+        };
+        return output;
+    }
 }
 
-module.exports.Transaction = Transaction;
+class TxInput {
+    constructor(id, index, ScriptSig) {
+        this.id_ = id;
+        this.index_ = index;
+        this.script_sig_ = ScriptSig;
+    }
+    toObject() {
+        let input = {
+            "id": this.id_,
+            "index": this.index_,
+            "ScriptSig": this.script_sig_
+        };
+        return input;
+    }
+}
+
+class Transaction {
+    constructor(input, output) {
+        this.input_ = [];
+        for (i = 0; i < input.length; ++i) {
+            this.input_.push(input[i].toObject());
+        }
+        this.output_ = [];
+        for (var i = 0; i < output.length; ++i) {
+            this.output_.push(output[i].toObject());
+        }
+        this.id_ = Crypto.calc_hash(JSON.stringify(this.input_) + JSON.stringify(this.output_));
+        return this.toObject();
+    }
+    get_id() { return this.id_; }
+    get_input() { return this.input_; }
+    get_output() { return this.output_; }
+    toObject() {
+        let tx = {
+            "id": this.id_,
+            "input": this.input_,
+            "output": this.output_
+        };
+        return tx;
+    }
+}
+
+module.exports = {
+    TxOutput,
+    TxInput,
+    Transaction
+};
