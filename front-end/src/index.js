@@ -5,6 +5,7 @@ import './index.css';
 import Home from './Container/Home';
 import Login from './Container/Login';
 import VotingForm from './Container/VotingForm';
+import Vote from './Container/Vote';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
@@ -13,6 +14,7 @@ const routing = (
       <Route exact path="/" component={Login} />
       <Route  path="/Home/:id" component={Home} />
       <Route  path="/VotingForm/:id" component={VotingForm} />
+      <Route  path="/vote/:id" component={Vote} />
 
     </div>
   </Router>

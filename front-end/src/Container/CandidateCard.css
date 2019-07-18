@@ -1,0 +1,47 @@
+.prodCard {
+	flex: 1 !important;
+	/* background-color: #521751 !important; */
+	align-items: center !important;
+	justify-content: center !important;
+	padding: 30px !important;
+	font: 1em sans-serif !important;
+	/* z-index: 100 !important; */
+}
+
+.prodCard .header {
+	font: 2em sans-serif !important;
+	font-weight: 2 !important;
+}
+
+.imageCard {
+	position: relative !important;
+	width: 25% !important;
+	height: 100% !important;
+	background: #fff !important;
+}
+
+.imageCard img {
+	width: 100% !important;
+	height: auto !important;
+}
+
+
+.imageCard .change-img {
+	position: absolute !important;
+	top: 45% !important;
+	/* left: 50% !important; */
+	/* transform: translate(-50%, -50%) !important;
+	-ms-transform: translate(-50%, -50%) !important; */
+	background-color: #555 !important;
+	color: white !important;
+	cursor: pointer !important;
+	opacity: 0.8;
+}
+
+.imageCard .next {
+	left: 85% !important;
+}
+
+.imageCard .prev {
+	right: 85% !important;
+}

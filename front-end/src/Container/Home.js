@@ -1,44 +1,68 @@
 import React, { Component } from "react";
+import { Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import Vote from './Vote';
+
 import Obama from './Images/Obama.jpg';
 import Hillary from './Images/Hillary.jpeg';
 import Trump from './Images/Trump.jpg';
 import "./Home.css";
+import candidates from './candidates';
+import CandidateCard from './CandidateCard';
 
-const container = {
-  paddingTop: 30
-}
 
 export default class Home extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      candidate: "",
-    };
-  }
+		this.state = {
+			candidate: "",
+		};
+	}
+	
+	selectCandidate = (candidate) => {
+		this.props.history.push('/VotingForm/'+ candidate)
+	}
 
-  selectCandidate = (candidate) => {
-    this.props.history.push('/VotingForm/'+ candidate)
-  }
+	render() {
+		const { params } = this.props.match
+	//	const candidates = JSON.parse("./candidates.json");
+		const allcandidates = candidates.candidates;
+		console.log('candidates', candidates);
+		return (
+			<div>
+				<h2 className="text-center"> Whom do you wanna see the next time?</h2>
+				<div style={container} className="col-md-12 col-md-offset-3 padding-top">
+				{ candidates && allcandidates.map((candidate, index) => 
+                    (
+					<div>
+                        <CandidateCard candidate={candidate} />
+						<Button as={Link} to={`/vote/${candidate.id}`}>Vote</Button>
+					</div>
 
-  render() {
-    const { params } = this.props.match
-    return (
-      <div>
-        <h2 className="text-center"> Whom do you wanna see the next time?</h2>
-        <div style={container} className="col-md-12 col-md-offset-3 padding-top">
-          <img src={Obama} style={imageStyle} class="image"  onClick={() => this.selectCandidate('Obama')}/>
-          <img src={Hillary} style={imageStyle} class="image"/>
-          <img src={Trump} style={imageStyle} class="image"/>
-        </div>
-      </div>
-    );
-  }
+                    ))}
+{/*
+					<div>
+						<img alt={Obama} src={Obama} style={imageStyle} class="image" onClick={() => this.selectCandidate('Obama')}/>
+						<h3>Obama</h3>
+					</div>
+					<img src={Hillary} style={imageStyle} class="image"/>
+					<img src={Trump} style={imageStyle} class="image"/>*/}
+				</div>
+			</div>
+		);
+	}
 }
 
+const styles = {
+
+}
+const container = {
+	paddingTop: 30
+}
 const imageStyle = {
-  height: 300,
-  width: 300,
-  padding: 10,
-  margin: 20
+	height: 300,
+	width: 300,
+	padding: 10,
+	margin: 20
 }

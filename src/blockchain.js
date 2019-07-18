@@ -33,10 +33,7 @@ class BlockChain {
     }
     async start() {
 
-        console.log(`datab ==================================================================== /tmp/data_${this.get_account_id()}`);
-       // , {valueEncoding: "json"}
         this.db_ = level(`./tmp/data_${this.get_account_id()}`);
-        console.log(`datab -------------------------------------------------------------------- ${this.db_}`);
         try {
             // load blocks
             let last = await this.db_.get("last_block");
