@@ -9,3 +9,43 @@
         box-shadow: 0px 2px 18px 4px rgba(0,0,0,0.23);
     }
   }*/
+
+
+
+	.home-title-container{
+		height: 60px;
+		width:100%;
+		background-color: darkred;
+
+	}
+	.home-title{
+		color:white;
+	}
+
+
+	.vote-button{
+		padding:5px 15px;
+		height: 40px;
+		width:100px;
+		border: 1px solid darkred;
+		color: darkred;
+		text-decoration-style: none;
+		display:block;
+		margin-top:100px;
+		text-align: center;
+		padding-top:10px;
+	}
+
+	.vote-button a{
+		color:darkred;
+		text-decoration: none !important;
+	}
+
+	.vote-button:hover{
+		background-color: darkred;
+		cursor: pointer
+	}
+
+	.vote-button:hover a{
+		color:white;
+	}

@@ -5,6 +5,7 @@
 	justify-content: center !important;
 	padding: 30px !important;
 	font: 1em sans-serif !important;
+	width:100%;
 	/* z-index: 100 !important; */
 }
 
@@ -15,14 +16,33 @@
 
 .imageCard {
 	position: relative !important;
-	width: 25% !important;
+	width: 22% !important;
 	height: 100% !important;
 	background: #fff !important;
+	float: left;
 }
+
+.card-info{
+	height: 100%;
+	float:left;
+	padding-left: 15px;
+}
+
+.card-info h2{
+	margin-top: 5px !important;
+	border-bottom: 1px solid darkred;
+}
+
+.description{
+	margin-bottom: 5px;
+
+}
+
 
 .imageCard img {
 	width: 100% !important;
 	height: auto !important;
+	max-height: 250px;
 }
 
 

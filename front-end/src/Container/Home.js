@@ -31,13 +31,15 @@ export default class Home extends Component {
 		console.log('candidates', candidates);
 		return (
 			<div>
-				<h2 className="text-center"> Whom do you wanna see the next time?</h2>
+				<div className="home-title-container">
+					<h2 className="text-center home-title">who should be the next president?</h2>
+				</div>
 				<div style={container} className="col-md-12 col-md-offset-3 padding-top">
 				{ candidates && allcandidates.map((candidate, index) => 
                     (
 					<div>
                         <CandidateCard candidate={candidate} />
-						<Button as={Link} to={`/vote/${candidate.id}`}>Vote</Button>
+						<div style={{clear:"both",marginBottom:"50px"}}></div>
 					</div>
 
                     ))}

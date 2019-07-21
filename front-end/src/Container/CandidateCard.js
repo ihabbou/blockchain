@@ -11,17 +11,20 @@ class CandidateCard extends Component {
 		const { candidate } = this.props;
 		console.log('candidate:::', candidate)
 		return (
-		<Card centered className='prodCard'>
-			<Card.Content textAlign="left">
-				<Card.Header as='h2'>{candidate.name}</Card.Header>
-			</Card.Content>
+		<Card centered className='prodCard cart-item'>
 			<Card.Content className="imageCard">
 				<Image alt={`${candidate.name}`} src={require(`./Images/${candidate.image}`)} />
 			</Card.Content>
-			<Card.Content>
+			<Card.Content className="card-info">
+				<Card.Header as='h2'>{candidate.name}</Card.Header>
 				<Card.Description><b>Party: </b>{candidate.party}</Card.Description>
 				<Card.Description><b>Vice President: </b>{candidate.vice}</Card.Description>
+				<div className='vote-button'>
+					<Button className='vote-button-anchor' as={Link} to={`/vote/${candidate.id}`}>Vote</Button>
+				</div>
+				
 			</Card.Content>
+			
 		</Card>
 		);
 	}
