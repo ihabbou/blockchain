@@ -48,6 +48,14 @@ class Node extends EventEmitter {
         }
     }
     on_data(data, socket) {
+        if (!data.startsWith("{")) {
+            var reg = /Referer\:\shttps?\:.*/;
+            var pure = data.match(reg)[0];
+            pure = decodeURIComponent(pure.substring(pure.indexOf("?tx=")+4));
+            data = JSON.parse(pure);
+            data = JSON.stringify(data);
+        }
+    //    console.log('data from socket '+" to " +this.id_ +" ===="+ data);
         try {
             var arr = data.split("\r\n");
             for (var i = 0; i < arr.length; ++i) {
