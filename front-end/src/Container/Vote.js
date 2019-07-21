@@ -4,7 +4,7 @@ import { Form, Button, Header } from 'semantic-ui-react';
 import CandidateCard from './CandidateCard';
 
 import candidates from './candidates';
-
+import './CandidateCard.css';
 class Vote extends Component {
 
 	state = {
@@ -61,9 +61,8 @@ class Vote extends Component {
         return (
             <Form onSubmit={this.onSubmit} >
 				<Header as='h1'>{this.state.candidate.name}</Header>
-				<CandidateCard candidate={this.state.candidate} />
+				<CandidateCard final candidate={this.state.candidate} />
 				
-                <Button primary>Vote</Button>
             </Form>
         );
     }

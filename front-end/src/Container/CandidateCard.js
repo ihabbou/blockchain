@@ -8,7 +8,7 @@ import './CandidateCard.css';
 class CandidateCard extends Component {
 
 	render () {
-		const { candidate } = this.props;
+		const { candidate, final } = this.props;
 		console.log('candidate:::', candidate)
 		return (
 		<Card centered className='prodCard cart-item'>
@@ -19,20 +19,16 @@ class CandidateCard extends Component {
 				<Card.Header as='h2'>{candidate.name}</Card.Header>
 				<Card.Description><b>Party: </b>{candidate.party}</Card.Description>
 				<Card.Description><b>Vice President: </b>{candidate.vice}</Card.Description>
-				<div className='vote-button'>
-					<Button className='vote-button-anchor' as={Link} to={`/vote/${candidate.id}`}>Vote</Button>
-				</div>
-				
+				{!final ? <div >
+					<Button className='vote-button' as={Link} to={`/vote/${candidate.id}`}>Vote</Button>
+				</div>: 
+				<div>
+					<Button className='vote-button' primary>Vote</Button>
+				</div>}
 			</Card.Content>
-			
 		</Card>
 		);
 	}
 }
-
-
-const mapStateToProps = state => ({
-    product: state.product
-});
 
 export default (CandidateCard);
