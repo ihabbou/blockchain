@@ -11,7 +11,7 @@ class CandidateCard extends Component {
 		const { candidate, final } = this.props;
 		console.log('candidate:::', candidate)
 		return (
-		<Card centered className='prodCard cart-item'>
+		<Card centered className='candCard cart-item'>
 			<Card.Content className="imageCard">
 				<Image alt={`${candidate.name}`} src={require(`./Images/${candidate.image}`)} />
 			</Card.Content>

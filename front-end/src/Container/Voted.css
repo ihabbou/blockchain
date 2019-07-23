@@ -1,0 +1,25 @@
+.byebye {
+    text-align: center;
+    padding-top: 2em;
+}
+
+.byebye button{
+    background-color: darkred;
+    color:white;
+    text-decoration: bold !important;
+    padding:5px 15px;
+    height: 40px;
+    width:100px;
+    border: 1px solid darkred;
+    /* text-decoration-style: none; */
+    margin-top:100px;
+    text-align: center;
+    padding-top:10px;
+}
+
+.byebye button:hover{
+    background-color: white;
+    color:darkred;
+    cursor: pointer;
+    text-decoration: none !important;
+}

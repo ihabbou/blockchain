@@ -1,4 +1,4 @@
-.prodCard {
+.candCard {
 	flex: 1 !important;
 	/* background-color: #521751 !important; */
 	align-items: center !important;
@@ -9,7 +9,7 @@
 	/* z-index: 100 !important; */
 }
 
-.prodCard .header {
+.candCard .header {
 	font: 2em sans-serif !important;
 	font-weight: 2 !important;
 }
