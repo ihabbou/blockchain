@@ -7,6 +7,12 @@ const SHA256 = require('crypto-js/sha256');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
+// var keypair = ec.genKeyPair();
+
+// console.log(keypair.getPrivate('hex'));
+// console.log("/=================================================/");
+// console.log(keypair.getPublic('hex'));
+
 let keys = ["b3688d70c8e32bd89f4d3496a87472a7badc5e240e64fa3c332ae065abd5e042",
         "c062f731402a4d55f9676b135c6aeabc736ab3dcadf8c27c70eec648de178e47",
         "889e2d192d9d4af714bfa66b1e9d3747dfa6fceefae4b02353c7a36bee1bacce",
@@ -38,13 +44,15 @@ for (var i = 0; i < 20; ++i) {
 	//var keypair = ec.genKeyPair();
 	var keypair = ec.keyFromPrivate(keys[i], 'hex');
 	// console.log("klef");
-
+    
 	// console.log("/=================================================/")
 	// console.log(klef.getPrivate('hex'));
 	// console.log(klef.getPublic('hex'));
-
+    
     //var keypair = ed.MakeKeypair(hash);
     console.log(`node ${i} address: ${keypair.getPublic('hex')}`);
+    
+
 
     let blockchain = new BlockChain(Consensus, keypair, i);
     blockchain.start();
@@ -55,14 +63,14 @@ setTimeout(() => {
     blockchains[0].get_balance().then((ball) => {
         console.log("ACCCC steuer = ", ball);//blockchains[0].get_public_key()
     });
-    //blockchains[0].create_transaction(address, 5);
+    blockchains[0].create_transaction(address, 1);
 }, 3000);
 
 async function get_balance() {
     let amount = await blockchains[0].get_balance();
     console.log(`node 0 balance: ${amount}`);
     amount = await blockchains[6].get_balance();
-    console.log(`node 6 balance: ${amount}`);
+    // console.log(`node 6 balance: ${amount}`);
 }
 
 setInterval(get_balance, 10000);

@@ -219,6 +219,8 @@ class BlockChain {
     }
     async verify_transaction(tx) {
         let input_amount = 0;
+        // 悪い
+        return true;
         for (var i = 0; i < tx.input.length; ++i) {
             let input = tx.input[i];
             // coinbase
@@ -336,6 +338,7 @@ class BlockChain {
                 {
                     // check if exist(pending or in chain) verify, store(into pending) and broadcast
                     let tx = msg.data;
+                    // console.log("Jesus ", msg.data);
                     if (this.tx_pool[tx.id]) {
                         // already exists
                         return;
@@ -556,6 +559,7 @@ class BlockChain {
             }
             return true;
         });
+        console.log("***** Creating Transaction from "+ this.get_account_id() +"::: "+ tx +"*****");
         if (value < amount) {
             throw new Error("amount is not enough!");
         }
@@ -563,8 +567,9 @@ class BlockChain {
             throw new Error("create transaction failed!");
         }
         this.tx_pool[tx.id] = tx;
+        console.log('tx::::::::::======', this.tx_pool);
         this.broadcast(Msg.transaction(tx));
-
+        
         return tx;
     }
 }

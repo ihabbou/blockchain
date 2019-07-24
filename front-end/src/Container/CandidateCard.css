@@ -1,3 +1,8 @@
+.candContainer {
+	flex: 1 !important;
+	align-content: center !important;
+}
+
 .candCard {
 	flex: 1 !important;
 	/* background-color: #521751 !important; */

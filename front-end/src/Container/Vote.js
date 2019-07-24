@@ -59,11 +59,13 @@ class Vote extends Component {
 
     render () {
         return (
+			<div className="candContainer">
             <Form onSubmit={this.onSubmit} >
 				<Header as='h1'>{this.state.candidate.name}</Header>
 				<CandidateCard final candidate={this.state.candidate} />
 				
             </Form>
+			</div>
         );
     }
 }
