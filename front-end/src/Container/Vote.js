@@ -59,11 +59,12 @@ class Vote extends Component {
 
     render () {
         return (
-			<div className="candContainer">
-            <Form onSubmit={this.onSubmit} >
-				<Header as='h1'>{this.state.candidate.name}</Header>
-				<CandidateCard final candidate={this.state.candidate} />
-				
+			<div className="candContainer"  style={{textAlign:'center'}} >
+            <Form onSubmit={this.onSubmit}   style={{textAlign:'center'}}  >
+				<Header style={{textAlign:'center'}} as='h1'>{this.state.candidate.name}</Header>
+				<div style={{width:"100%", alignItems: 'center'}}>
+					<CandidateCard solo  style={{textAlign:'center'}}  final candidate={this.state.candidate} />
+				</div>
             </Form>
 			</div>
         );

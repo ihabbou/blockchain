@@ -43,6 +43,14 @@
 
 }
 
+.no-float{
+	float:none !important;
+}
+
+.centerify{
+	margin: 0 auto;
+}
+
 
 .imageCard img {
 	width: 100% !important;
