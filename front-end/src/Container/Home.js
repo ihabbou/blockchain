@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from 'semantic-ui-react';
+import { Button, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Vote from './Vote';
 
@@ -30,9 +30,14 @@ export default class Home extends Component {
 		const allcandidates = candidates.candidates;
 		console.log('candidates', candidates);
 		return (
-			<div>
+			<div className="parent-container">
 				<div className="home-title-container">
-					<h2 className="text-center home-title">who should be the next president?</h2>
+					<div>
+						
+						<h2 className="text-center home-title">who should be the next president?</h2>
+					</div>
+					<Image src={require("./Images/america.jpg")} />
+					
 				</div>
 				<div style={container} className="col-md-12 col-md-offset-3 padding-top">
 				{ candidates && allcandidates.map((candidate, index) => 

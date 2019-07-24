@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Header } from 'semantic-ui-react';
+import { Form, Button, Image,Header } from 'semantic-ui-react';
 
 import CandidateCard from './CandidateCard';
 
@@ -60,10 +60,16 @@ class Vote extends Component {
     render () {
         return (
 			<div className="candContainer"  style={{textAlign:'center'}} >
+				<div className="home-title-container">
+					<div>
+						<Image src={require("./Images/america.jpg")} />
+					</div>
+					<h2 className="text-center home-title">is this your one?</h2>
+				</div>
             <Form onSubmit={this.onSubmit}   style={{textAlign:'center'}}  >
 				<Header style={{textAlign:'center'}} as='h1'>{this.state.candidate.name}</Header>
 				<div style={{width:"100%", alignItems: 'center'}}>
-					<CandidateCard solo  style={{textAlign:'center'}}  final candidate={this.state.candidate} />
+					<CandidateCard solo final candidate={this.state.candidate} />
 				</div>
             </Form>
 			</div>

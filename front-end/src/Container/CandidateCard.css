@@ -43,6 +43,10 @@
 
 }
 
+.parent-container{
+	background-image: url("../Container/Images/america.jpg")
+}
+
 .no-float{
 	float:none !important;
 }
