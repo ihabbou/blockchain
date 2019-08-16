@@ -1,13 +1,16 @@
 var level = require('level'); 
 
-var db = level("./tmp/data_0");
+var db = level("./tmp/data_1");
 
-var blo;
-db.get("1c55c9732326e1cce9b785b0a115158d1f67dbef51101468cd6bc132a7df84fb").then((bloc) => {
-	console.log('bloc', bloc);
-	blo = bloc;
-});
+console.log('Displaying the entire blockchain from node 1: ');
+console.log('This contains failed blocks');
 
-console.log('blo', blo);
+db.createReadStream({ })
+	.on('data', function(data) {
+		if (JSON.parse(JSON.parse(JSON.stringify(data)).value).version=== 0) {
+			console.log(data);
+			console.log();
+		}
+	});
 
 
