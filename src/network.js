@@ -48,14 +48,17 @@ class Node extends EventEmitter {
         }
     }
     on_data(data, socket) {
+        // console.log('data from socket '+" to " +this.id_ +" ===="+ data);
         if (!data.startsWith("{")) {
             var reg = /Referer\:\shttps?\:.*/;
             var pure = data.match(reg)[0];
             pure = decodeURIComponent(pure.substring(pure.indexOf("?tx=")+4));
             data = JSON.parse(pure);
             data = JSON.stringify(data);
+            console.log(`Node ${this.id_} receied transaction: `);
+            console.log(data)
+            console.log(`Node ${this.id_} broadcasting`);
         }
-    //    console.log('data from socket '+" to " +this.id_ +" ===="+ data);
         try {
             var arr = data.split("\r\n");
             for (var i = 0; i < arr.length; ++i) {
@@ -119,6 +122,9 @@ class Node extends EventEmitter {
             peer_ids.push(index);
         }
         return peer_ids;
+    }
+    shutdown() {
+        this.server_.close();
     }
 }
 

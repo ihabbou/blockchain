@@ -559,7 +559,7 @@ class BlockChain {
             }
             return true;
         });
-        console.log("***** Creating Transaction from "+ this.get_account_id() +"::: "+ tx +"*****");
+        // console.log("***** Creating Transaction from "+ this.get_account_id() +"::: "+ tx +"*****");
         if (value < amount) {
             throw new Error("amount is not enough!");
         }
@@ -567,10 +567,14 @@ class BlockChain {
             throw new Error("create transaction failed!");
         }
         this.tx_pool[tx.id] = tx;
-        console.log('tx::::::::::======', this.tx_pool);
+        // console.log('tx::::::::::======', this.tx_pool);
         this.broadcast(Msg.transaction(tx));
         
         return tx;
+    }
+    shutdown() {
+        this.node_.shutdown();
+        console.log(`node ${this.get_account_id()} shutdown`)
     }
 }
 
