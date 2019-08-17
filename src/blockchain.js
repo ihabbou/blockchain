@@ -14,13 +14,13 @@ var Crypto = require("./cryptographer");
 var Pbft = require("./pbft");
 let pbft = false;
 class BlockChain {
-    constructor(Consensus, keypair, id, is_bad = false) {
+    constructor(Consensus, keypair, id, is_bad = false, miner = true) {
         // todo
         this.pending_block_ = {};
         this.tx_pool = {};
         // this.chain_ = [];
 
-        this.is_bad_ = is_bad;
+        this.miner_ = miner;
         this.pbft_ = new Pbft(this);
 
         // ///////////////////////////////////////
@@ -59,13 +59,14 @@ class BlockChain {
     }
     loop(cb) {
         let self = this;
+        if (!self.is_miner_) return;
         if (this.consensus_.prepared()) {
-            if (!self.is_bad_) {
-                this.generate_block(this.get_account_keypair(), () => {
-                    // broadcast block
-                    let block = self.get_last_block();
-                    console.log(`node: ${self.get_account_id()} generate block! block height: ${block.height} hash: ${block.hash}`);
-                });
+            if (!self.is_bad_ ) {
+                    this.generate_block(this.get_account_keypair(), () => {
+                        // broadcast block
+                        let block = self.get_last_block();
+                        console.log(`node: ${self.get_account_id()} generate block! block height: ${block.height} hash: ${block.hash}`);
+                    });
             } else {
                 self.fork();
             }
@@ -573,6 +574,7 @@ class BlockChain {
         return tx;
     }
     shutdown() {
+        this.is_miner_ = false;
         this.db_.close();
         this.node_.shutdown();
         console.log(`node ${this.get_account_id()} shutdown`)

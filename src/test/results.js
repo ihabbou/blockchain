@@ -15,7 +15,8 @@ for (var i = 0; i < keys.candidates.length; ++i) {
 	
     var keypair = ec.keyFromPrivate(keys.candidates[i].pk, 'hex');
         
-    let blockchain = new BlockChain(Consensus, keypair, i);
+	let blockchain = new BlockChain(Consensus, keypair, i);
+	blockchain.is_miner_ = false;
 	blockchain.start();
 	let namae = keys.candidates[i].name;
 	setTimeout(() => { 
