@@ -573,6 +573,7 @@ class BlockChain {
         return tx;
     }
     shutdown() {
+        this.db_.close();
         this.node_.shutdown();
         console.log(`node ${this.get_account_id()} shutdown`)
     }

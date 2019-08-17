@@ -1,4 +1,4 @@
-export default {
+module.exports = {
 	"candidates": [{
 			"name": "Barack Obama",
 			"vice": "Joe Biden",
