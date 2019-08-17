@@ -7,6 +7,7 @@ import Login from './Container/Login';
 import VotingForm from './Container/VotingForm';
 import Vote from './Container/Vote';
 import Voted from './Container/Voted';
+import Errord from './Container/Errord';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
@@ -14,9 +15,10 @@ const routing = (
     <div>
       <Route exact path="/" component={Login} />
       <Route  path="/Home/:id" component={Home} />
-      <Route  path="/VotingForm/:id" component={VotingForm} />
-      <Route  path="/vote/:id" component={Vote} />
+      <Route  path="/VotingForm/:id/:cand" component={VotingForm} />
+      <Route  path="/vote/:id/:cand" component={Vote} />
       <Route  path="/voted" component={Voted} />
+      <Route  path="/error" component={Errord} />
 
     </div>
   </Router>
@@ -24,7 +26,4 @@ const routing = (
 
 ReactDOM.render(routing, document.getElementById('root'))
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();

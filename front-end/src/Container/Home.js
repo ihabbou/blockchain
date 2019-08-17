@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-import { Button, Image } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import Vote from './Vote';
+import { Image } from 'semantic-ui-react';
 
-import Obama from './Images/Obama.jpg';
-import Hillary from './Images/Hillary.jpeg';
-import Trump from './Images/Trump.jpg';
 import "./Home.css";
-import candidates from './candidates';
+import candidates from '../candidates';
 import CandidateCard from './CandidateCard';
 
 
@@ -16,12 +11,14 @@ export default class Home extends Component {
 		super(props);
 
 		this.state = {
-			candidate: "",
+			id: "",
+			candidate: {}
 		};
 	}
 	
 	selectCandidate = (candidate) => {
-		this.props.history.push('/VotingForm/'+ candidate)
+		this.setState({id: this.props.match.id});
+		this.props.history.push(`/VotingForm/${this.state.id}/${candidate}`);
 	}
 
 	render() {
@@ -43,33 +40,16 @@ export default class Home extends Component {
 				{ candidates && allcandidates.map((candidate, index) => 
                     (
 					<div>
-                        <CandidateCard candidate={candidate} />
+                        <CandidateCard candidate={candidate} id={params.id}/>
 						<div style={{clear:"both",marginBottom:"50px"}}></div>
 					</div>
-
                     ))}
-{/*
-					<div>
-						<img alt={Obama} src={Obama} style={imageStyle} class="image" onClick={() => this.selectCandidate('Obama')}/>
-						<h3>Obama</h3>
-					</div>
-					<img src={Hillary} style={imageStyle} class="image"/>
-					<img src={Trump} style={imageStyle} class="image"/>*/}
 				</div>
 			</div>
 		);
 	}
 }
 
-const styles = {
-
-}
 const container = {
 	paddingTop: 30
-}
-const imageStyle = {
-	height: 300,
-	width: 300,
-	padding: 10,
-	margin: 20
 }

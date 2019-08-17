@@ -30,21 +30,14 @@ class Login extends Component {
 	render() {
 		return (
 		<div className="Login">
+			<h1 style={{textAlign:'center'}}>Welcome to the Blockchain voting</h1>
 			<form onSubmit={this.handleSubmit}>
 			<FormGroup controlId="publicKey" bsSize="large">
-				<ControlLabel>Your Public key</ControlLabel>
+				<ControlLabel>Your Private key</ControlLabel>
 				<FormControl
 				autoFocus
 				value={this.state.publicKey}
 				onChange={this.handleChange}
-				/>
-			</FormGroup>
-			<FormGroup controlId="password" bsSize="large">
-				<ControlLabel>Password</ControlLabel>
-				<FormControl
-				value={this.state.password}
-				onChange={this.handleChange}
-				type="password"
 				/>
 			</FormGroup>
 			<Button

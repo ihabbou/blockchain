@@ -1,19 +1,12 @@
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Card, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './CandidateCard.css';
 
 class CandidateCard extends Component {
-	constructor(props){
-		super(props)
-	}
-
-
 	render () {
-		const { candidate, final, solo } = this.props;
-		console.log('candidate:::', candidate)
+		const { candidate, final, solo, id } = this.props;
 		let imgClasses= "imageCard"
 		let cardInfoClasses= "card-info"
 
@@ -27,10 +20,12 @@ class CandidateCard extends Component {
 				<Card.Description><b>Party: </b>{candidate.party}</Card.Description>
 				<Card.Description><b>Vice President: </b>{candidate.vice}</Card.Description>
 				{!final ? <div >
-					<Button className='vote-button' as={Link} to={`/vote/${candidate.id}`}>Vote</Button>
+					<Button className='vote-button' as={Link} to={`/vote/${id}/${candidate.id}`}>Vote</Button>
 				</div>: 
 				<div>
-					<Button style={solo?{margin:"0 auto", float:"none"}:{}} className='vote-button ' primary>Vote</Button>
+					<Button style={solo?{margin:"0 auto", float:"none", fontWeight:"bold"}:{}} className='vote-button ' primary>Confirm</Button>
+					<br/>
+					<Link style={solo?{ color:"black"}:{}} to={"/Home/"+id}>Back</Link>
 				</div>}
 			</Card.Content>
 		</Card>
