@@ -1,9 +1,9 @@
+/**
+ * Displays the results of the election
+ */
 var BlockChain = require('../blockchain.js');
-var Transaction = require('../transaction.js').Transaction;
 var Consensus = require("../dpos");
 
-
-const SHA256 = require('crypto-js/sha256');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
@@ -25,8 +25,6 @@ for (var i = 0; i < keys.candidates.length; ++i) {
 		}).catch((err) => {
 			console.log(err);
 		});;
-		//	console.log(`node 0 balance: ${amount}`);
-		//	delete blockchain;
 	}, 3000);
 }
 
