@@ -66,6 +66,7 @@ class BlockChain {
                         // broadcast block
                         let block = self.get_last_block();
                         console.log(`node: ${self.get_account_id()} generate block! block height: ${block.height} hash: ${block.hash}`);
+                        
                     });
             } else {
                 self.fork();
@@ -127,7 +128,6 @@ class BlockChain {
                 data.height == self.last_block_.height + 1) {
                 // console.log("block completed");
                 self.commit_block(data);
-
                 self.broadcast(Msg.block(data));
 
                 if (cb) cb();
@@ -170,10 +170,14 @@ class BlockChain {
         if (!hash) {
             return;
         }
-        let block = await this.get_from_db(hash);
-        let res = cb(block);
-        if (res)
+        try {
+            let block = await this.get_from_db(hash);
+            let res = cb(block);
+            if (res)
             await this.iterator_back(cb, block.previous_hash);
+        } catch (error) {
+            console.log(`node ${this.id_} failed to obtain block`);
+        }
     }
     async iterator_forward(cb, hash) {
         if (!hash) {
@@ -220,8 +224,7 @@ class BlockChain {
     }
     async verify_transaction(tx) {
         let input_amount = 0;
-        // 悪い
-        return true;
+        // 悪い return true;
         for (var i = 0; i < tx.input.length; ++i) {
             let input = tx.input[i];
             // coinbase
@@ -411,81 +414,7 @@ class BlockChain {
                 break;
         }
     }
-    // print() {
-    //     // todo chain_
-    //     let output = '';
-    //     for (var i = 0; i < this.chain_.length; ++i) {
-    //         let height = this.chain_[i].height;
-    //         let hash = this.chain_[i].hash.substr(0, 6);
-    //         let generator_id = this.chain_[i].consensus_data.generator_id;
-    //         if (generator_id == undefined) generator_id = null;
-    //         output += `(${height}:${hash}:${generator_id}) -> `;
-    //     }
-    //     console.log(`node: ${this.get_account_id()} ${output}`);
-    // }
-    // async fork() {
-    //     console.log('----------fork----------');
-    //     // load transactions
-    //     var tx1 = [{
-    //         amount: 1000,
-    //         recipient: 'bob',
-    //         sender: 'alice'
-    //     }];
-    //     // create block
-    //     let block1 = new Block({
-    //         "keypair": this.get_account_keypair(),
-    //         "previous_block": this.last_block_,
-    //         "transactions": tx1
-    //     }, this.consensus_);
-    //     // make proof of the block/mine
-    //     let self = this;
-    //     let block_data1 = await new Promise((resolve, reject) => {
-    //         block1.on('block completed', (data) => {
-    //             if (data.height == self.last_block_.height + 1) {
-    //                 resolve(data);
-    //             } else {
-    //                 reject('block1 failed');
-    //             }
-    //         });
-    //     });
-
-    //     // load transactions
-    //     var tx2 = [{
-    //         amount: 1000,
-    //         recipient: 'cracker',
-    //         sender: 'alice'
-    //     }];
-    //     // create block
-    //     let block2 = new Block({
-    //         "keypair": this.get_account_keypair(),
-    //         "previous_block": this.last_block_,
-    //         "transactions": tx2
-    //     }, this.consensus_);
-    //     let block_data2 = await new Promise((resolve, reject) => {
-    //         block2.on('block completed', (data) => {
-    //             if (data.height == self.last_block_.height + 1) {
-    //                 resolve(data);
-    //             } else {
-    //                 reject('block2 failed');
-    //             }
-    //         });
-    //     });
-
-    //     var i = 0;
-    //     for (var id in this.node_.peers_) {
-    //         let socket = this.node_.peers_[id];
-    //         if (i % 2 == 0) {
-    //             var msg1 = Msg.block(block_data1);
-    //             this.node_.send(socket, msg1);
-    //         } else {
-    //             var msg2 = Msg.block(block_data2);
-    //             this.node_.send(socket, msg2);
-    //         }
-    //         i++;
-    //     }
-    //     console.log("fork");
-    //     this.commit_block(block_data1);
-    // }
+    
     create_coinbase() {
         let input = new TxInput(null, -1, `${new Date()} node: ${this.get_account_id()} coinbase tx`);
         let output = new TxOutput(50, this.get_public_key());

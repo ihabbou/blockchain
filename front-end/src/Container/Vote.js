@@ -23,7 +23,7 @@ class Vote extends Component {
 		}
 		
 		this.props.history.push('/voted?tx='+JSON.stringify(trax));
-		fetch("http://localhost:8000/", {
+		fetch("http://localhost:7999/", {
 			method: 'POST',
 			headers: {
 				"Content-type": "application/json"
