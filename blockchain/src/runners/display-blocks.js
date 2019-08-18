@@ -1,3 +1,8 @@
+/**
+ * Displays the blocs directly from the database of node 2
+ */
+
+
 var level = require('level'); 
 
 var db = level("./tmp/data_2");
@@ -14,3 +19,4 @@ db.createReadStream({ })
 	});
 
 
+w

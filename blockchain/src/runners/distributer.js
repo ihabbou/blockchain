@@ -1,6 +1,11 @@
+/**
+ * WARNING!!! 
+ * due to synchronisation issues with the network functionality
+ * the transactions for sending the tokens are for ome reason only in one node
+ */
+
 var BlockChain = require('../blockchain.js');
 var Consensus = require("../dpos");
-
 
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
@@ -20,18 +25,12 @@ for (var i = 1; i < keys.miners.length; ++i) {
     blockchains.push(blockchain);
 }
 let txs = [];
-// keys = require("../../front-end/src/candidates");
+
 let queue = keys.voters;
 setInterval(() => {
     if (queue.length === 0) {
         console.log("waiting for other nodes... ");
         let broadcasted = true;
-       /*  for (let i = 0; i < blockchains.length; i++) {
-            const blockchain = blockchains[i];
-            txs.forEach(tx => {
-                if (!blockchain.tx_pool[tx]) broadcasted = false;
-            });
-        } */
     //    blockchains[1].sync();
         if (broadcasted) setTimeout(() => {
             console.log("done! shutting down...");

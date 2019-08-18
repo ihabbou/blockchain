@@ -13,6 +13,11 @@ var Crypto = require("./cryptographer");
 
 var Pbft = require("./pbft");
 let pbft = false;
+
+/**
+ * Blockchain class
+ * a normal blockchain that uses leveldb for data and the network.js class to communicate
+ */
 class BlockChain {
     constructor(Consensus, keypair, id, is_bad = false, miner = true) {
         // todo
@@ -34,6 +39,7 @@ class BlockChain {
     async start() {
 
         this.db_ = level(`./tmp/data_${this.get_account_id()}`);
+        console.log("connected DB")
         try {
             // load blocks
             let last = await this.db_.get("last_block");
@@ -65,7 +71,8 @@ class BlockChain {
                     this.generate_block(this.get_account_keypair(), () => {
                         // broadcast block
                         let block = self.get_last_block();
-                        console.log(`node: ${self.get_account_id()} generate block! block height: ${block.height} hash: ${block.hash}`);
+                        //console.log(`node: ${self.get_account_id()} generate block! block height: ${block.height} hash: ${block.hash}`);
+                        console.log(`node: ${self.get_account_id()} at block: ${block.height}`);
                         
                     });
             } else {
@@ -342,7 +349,6 @@ class BlockChain {
                 {
                     // check if exist(pending or in chain) verify, store(into pending) and broadcast
                     let tx = msg.data;
-                    // console.log("Jesus ", msg.data);
                     if (this.tx_pool[tx.id]) {
                         // already exists
                         return;
@@ -362,17 +368,17 @@ class BlockChain {
                 break;
             case MessageType.Sync:
                 {
-                    console.log(`${this.get_account_id()} receive sync info`);
+                //    console.log(`${this.get_account_id()} receive sync info`);
                     let data = msg.data;
                     let id = data.id;
                     if (data.hash) {
                         let block = await this.get_from_db(data.hash);
                         this.send_msg(id, Msg.sync_block({ "id": this.get_account_id(), "block": block }));
-                        console.log(`---> ${this.get_account_id()} send sync block: ${block.height}`);
+                //        console.log(`---> ${this.get_account_id()} send sync block: ${block.height}`);
 
                     } else {
                         this.send_msg(id, Msg.sync_block({ "id": this.get_account_id(), "last_block": this.last_block_ }));
-                        console.log(`---> ${this.get_account_id()} send sync last block: ${this.last_block_.height}`);
+                //        console.log(`---> ${this.get_account_id()} send sync last block: ${this.last_block_.height}`);
                     }
                 }
                 break;
@@ -384,11 +390,11 @@ class BlockChain {
                     if (data.hasOwnProperty("last_block")) {
                         block = data.last_block;
                         this.last_block_ = block;
-                        console.log(`++++ ${this.get_account_id()} change last block: ${block.height}`);
+                    //    console.log(`++++ ${this.get_account_id()} change last block: ${block.height}`);
                     } else {
                         block = data.block;
                     }
-                    console.log(`<--- ${this.get_account_id()} receive sync block: ${block.height}\n`);
+                    //console.log(`<--- ${this.get_account_id()} receive sync block: ${block.height}\n`);
 
                     this.save_block(block);
                     let hash = block.previous_hash;
@@ -397,10 +403,10 @@ class BlockChain {
                         res = await this.get_from_db(hash);
                     }
                     if (!res) {
-                        console.log(`---> ${this.get_account_id()} continue sync hash: ${hash}`);
+                    //    console.log(`---> ${this.get_account_id()} continue sync hash: ${hash}`);
                         this.send_msg(id, Msg.sync({ "id": this.get_account_id(), "hash": hash }));
                     } else {
-                        console.log(`==== ${this.get_account_id()} complete syning!`);
+                        console.log(`==== ${this.get_account_id()} complete syning! ${block.height}`);
                     }
                 }
                 break;
@@ -497,7 +503,6 @@ class BlockChain {
             throw new Error("create transaction failed!");
         }
         this.tx_pool[tx.id] = tx;
-        // console.log('tx::::::::::======', this.tx_pool);
         this.broadcast(Msg.transaction(tx));
         
         return tx;

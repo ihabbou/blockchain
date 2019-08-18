@@ -1,6 +1,9 @@
 'use strict';
 var Crypto = require("./cryptographer");
 
+/**
+ * Transaction class with transaction imputs and outputs
+ */
 class TxOutput {
     constructor(amount, ScriptPubKey) {
         this.amount_ = amount;

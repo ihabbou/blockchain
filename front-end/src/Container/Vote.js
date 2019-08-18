@@ -33,7 +33,7 @@ class Vote extends Component {
 			console.log('Vote passed to the blockchain node: ', data);
 		}).catch((error) => {
 			console.error('Request failed', error);
-			this.props.history.push('/error');
+		//	this.props.history.push('/error');
 		});
 		console.log("Vote attempted");
 	}

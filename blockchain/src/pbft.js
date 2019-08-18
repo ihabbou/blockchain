@@ -11,7 +11,9 @@ var State = {
     Commit: 2,
 };
 
-
+/**
+ * A different consensus algorithm not in use
+ */
 class Pbft {
     constructor(blockchain) {
         this.block_chain_ = blockchain;

@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Account class contains the account information of the blockchain node
+ */
 class Account {
     constructor(keypair, id) {
         this.keypair_ = keypair;

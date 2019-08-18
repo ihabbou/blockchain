@@ -1,7 +1,9 @@
 var EventEmitter = require('events').EventEmitter;
 var Crypto = require("./cryptographer");
 
-
+/**
+ * Blockchain Block
+ */
 class Block extends EventEmitter {
     constructor(data, consensus) {
         super();

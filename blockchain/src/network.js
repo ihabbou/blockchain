@@ -7,6 +7,12 @@ var Promise = require("bluebird");
 
 var PORT = 8000;
 
+/**
+ * This is the network class that interfaces with the other 
+ * blockchain nodes using websockets.
+ * it uses the id of the blockchain and adds it to 8000 to
+ * get the socket.
+ */
 class Node extends EventEmitter {
     constructor(id) {
         super();

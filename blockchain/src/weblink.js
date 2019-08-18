@@ -10,7 +10,12 @@ var BlockChain = require('./blockchain.js');
 var Consensus = require("./dpos");
 
 var PORT = 8000;
+var blockchains = [];
 
+/**
+ * This script creats the blockchain and receives the transaction data
+ * from the websockets
+ */
 class WebLink extends EventEmitter {
     constructor(id) {
         super();
@@ -24,44 +29,41 @@ class WebLink extends EventEmitter {
         this.server_.listen(PORT + id);
         console.log("Weblink started.");
         console.log("You may use this machine to vote.");
+
+        let keys = require("./keys.json");
+
+        for (var i = 0; i < keys.miners.length; ++i) {
+
+            var keypair = ec.keyFromPrivate(keys.miners[i].private, 'hex');
+            
+            console.log(`node ${i} address: ${keypair.getPublic('hex')}`);
+            
+            let blockchain = new BlockChain(Consensus, keypair, i);
+            blockchain.is_miner_ = true;
+            blockchain.start();
+            blockchains.push(blockchain);
+            setInterval(() => {
+        // blockchain.sync();
+            }, 3000);
+        }
     }
     
     on_data(data) {
-        console.log('weblink data from socket '+" to " +this.id_ +" ===="+ data);
         if (!data.startsWith("{")) {
             var reg = /Referer\:\shttps?\:.*/;
             var pure = data.match(reg)[0];
             pure = decodeURIComponent(pure.substring(pure.indexOf("?tx=")+4));
             data = JSON.parse(pure);
-        //    data = JSON.stringify(data);
-            console.log(`Node ${this.id_} receied transaction: `);
-            console.log(data);
-            console.log(`Node ${this.id_} broadcasting`);
+            console.log(`Node receied transaction: vote to ${data.candidate.id}`);
+            
         }
         try {
             console.log("++++++++++++++++++");
-            console.log("candidate == ", data.candidate);
             var keypair = ec.keyFromPrivate(data.key, 'hex');
             
-            let blockchain = new BlockChain(Consensus, keypair, 0);
-            blockchain.is_miner_ = true;
-            blockchain.start();
-
-             // 悪い var balance =  await blockchain.get_balance();
-            // 悪い if (balance !== 1) return; // more than one or less than one means something is wrong
-
             setTimeout(() => {
-                /* blockchain.get_balance().then((balance) => {
-                    if (balance > 1)
-                        blockchain.create_transaction(data.candidate.id, 1); 
-                }).catch((err) => {
-                    console.log(err);
-                }); */
-                /* var balance =  await blockchain.get_balance();
-                if (balance === 1)
-                    blockchain.create_transaction(data.candidate.id, 1);  */
-                blockchain.create_transaction(data.candidate.id, 1);
-                blockchain.shutdown(); }, 17000);
+                blockchains[0].create_transaction(data.candidate.id, 1);
+            }, 4000);
             
         } catch (err) {
             console.log("=========================");
@@ -70,13 +72,9 @@ class WebLink extends EventEmitter {
             console.log(err.message);
             console.log(data);
             console.log("=========================");
-            setTimeout(() => { blockchain.shutdown(); }, 3000);
-        //    throw new Error();
         }
 
     }
 }
 
 module.exports = WebLink;
-
-//new WebLink(1);
