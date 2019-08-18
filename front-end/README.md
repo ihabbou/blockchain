@@ -1,5 +1,8 @@
 Front end for the Blockchain-based Voting system
 
+Using the [reactjs](https://reactjs.org/) framework
+
+
 ## Starting
 
 Start the web interface with:

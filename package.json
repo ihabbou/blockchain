@@ -4,7 +4,11 @@
   "description": "A Blockchain-based voting system.",
   "main": "node.js",
   "scripts": {
-    "pls": "npm index.js",
+    "display": "node blockchain/src/runners/display-blocks.js",
+    "distribute": "node blockchain/src/runners/distributer.js",
+    "blockchain": "node blockchain/src/runners/blocknet.js",
+    "linker": "node blockchain/src/runners/linker.js",
+    "results": "node blockchain/src/runners/results.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
