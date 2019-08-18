@@ -7,7 +7,7 @@ var Consensus = require("../dpos");
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
-let keys = require("../../front-end/src/candidates");
+let keys = require("../../../front-end/src/candidates");
 console.log("Warning: some nodes might still have not received the latest transaction");
 
 let resultText = "Election results: \n\n";
